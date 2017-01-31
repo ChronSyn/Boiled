@@ -1,0 +1,333 @@
+body{
+	background-image: url("/public/img/mainui_bgimage_1440.jpg");
+	background-repeat: no-repeat;
+	background-color: #000000;
+	background-attachment: fixed;
+	background-position-x: center;
+}
+
+/* MAIN UI ELEMENT STYLING */
+.mainui_item{
+	position: relative;
+	top: 10px;
+	left: 10px;
+	padding-right: 25px;
+}
+
+.mainui_item .titlebar{
+	height: 38px;
+	background-color: rgba(0,0,0,0.5);
+	padding-left: 10px;
+	margin-bottom: -9px;
+}
+
+.mainui_item .title{
+	font-family: 'segoe ui light';
+	font-weight: 700;
+	color: #ffffff;
+}
+
+#gamelist_holder{
+	padding-top: 10px;
+}
+
+
+/* GAME UI ELEMENTS */
+
+#gamelist{
+	position: relative;
+	top: 10px;
+	left: 10px;
+}
+
+.mainUI_GameList_Item{
+	float:left;
+	width: 460px;
+	height: 215px;
+	z-index: 1;
+	position: relative;
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
+
+.mainUI_GameList_Item .bgimage{
+	position: absolute;
+	z-index: 2;
+}
+
+.mainUI_GameList_Item .overlay{
+	position: relative;
+	top: 0px;
+	background-color: rgba(0,0,0,0.8);
+	z-index: 3;
+	width: 460px;
+	height: 216px;
+	border: 1px solid #00ccff;
+}
+
+.mainUI_GameList_Item .hover_overlay{
+	position: absolute;
+	background-color: rgba(0,0,0,0.5);
+	border: 1px solid #00ccff;
+	z-index: 4;
+	width: 460px;
+	height: 0px;
+	bottom: 0px;
+}
+
+.mainUI_GameList_Item .hover_overlay_top{
+	position: absolute;
+	background-color: rgba(0,0,0,1.0);
+	z-index: 4;
+	width: 460px;
+	height: 0px;
+	top: 0px;
+}
+
+.mainUI_GameList_Item .title{
+	color: #00ccff;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-left: 10px;
+	margin-bottom: 0px;
+	margin-right: 10px;
+	font-family: "segoe UI light";
+	font-weight: 300;
+}
+
+.mainUI_GameList_Item .install_link{
+	color: #00ccff;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-left: 10px;
+	margin-bottom: -19px;
+	margin-right: 10px;
+	font-family: "segoe UI light";
+	font-weight: 300;
+	position: absolute;
+	top: 0px;
+	display: none;
+}
+
+.mainUI_GameList_Item .subtitle{
+	color: #99dd99;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-left: 10px;
+	font-family: "segoe UI light";
+	font-weight: 300;
+	margin-bottom: -5px;
+	margin-right: 10px;
+}
+
+.mainUI_GameList_Item a{
+	text-decoration: none;
+	color: #ffffdd
+}
+
+.mainUI_GameList_Item .overlay_btn{
+	width: 80px;
+	height: 80px;
+	border: 1px solid #aaa;
+	top: 50px;
+	left: 50px;
+	float: left;
+	margin-left: 10px;
+	margin-top: 10px;
+	background-color: #666666;
+}
+
+.gameSelected .overlay{
+	background-color: rgba(0,170,200,1.0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* DRIVE UI ELEMENTS */
+
+#drivelist{
+	position: relative;
+	top: 10px;
+	left: 10px;
+}
+
+.mainUI_DriveList_Item{
+	float:left;
+	width: 460px;
+	height: 105px;
+	z-index: 1;
+	position: relative;
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
+
+.mainUI_DriveList_Item .bgimage{
+	position: absolute;
+	z-index: 2;
+}
+
+.mainUI_DriveList_Item .overlay{
+	position: relative;
+	top: 0px;
+	background-color: rgba(0,0,0,0.8);
+	z-index: 3;
+	width: 460px;
+	height: 105px;
+}
+
+.mainUI_DriveList_Item .left_holder{
+	position: relative;
+	z-index: 3;
+	width: 105px;
+	height: 105px;
+	float: left;
+}
+
+.mainUI_DriveList_Item .right_holder{
+	position: relative;
+	z-index: 3;
+	width: 355px;
+	height: 105px;
+	float: right;
+}
+
+.mainUI_DriveList_Item .progress_textoverlay{
+	position: absolute;
+	float: left;
+	width: 335px;
+	height: 25px;
+	text-align: center;
+	color: #3f3f3f;
+	font-family: 'segoe ui semibold';
+	font-size: 20px;
+}
+
+.mainUI_DriveList_Item .hover_overlay{
+	position: absolute;
+	background-color: rgba(0,0,0,0.5);
+	border-top: #00ccff 1px solid;
+	z-index: 4;
+	width: 460px;
+	height: 0px;
+	bottom: 0px;
+}
+
+.mainUI_DriveList_Item .hover_overlay_top{
+	position: absolute;
+	background-color: rgba(0,0,0,1.0);
+	border-bottom: #00ccff 1px solid;
+	z-index: 4;
+	width: 460px;
+	height: 0px;
+	top: 0px;
+}
+
+.mainUI_DriveList_Item .title{
+	color: #00ccff;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-left: 10px;
+	margin-bottom: -3px;
+	margin-right: 10px;
+	margin-top: 10px;
+	font-family: "segoe UI light";
+	font-weight: 300;
+	border: 1px rgba(255,255,255,1.0) solid;
+}
+
+.mainUI_DriveList_Item .progress .bar{
+	height: 25px;
+}
+
+.mainUI_DriveList_Item .options_header{
+	color: #00ccff;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-left: 10px;
+	margin-bottom: -19px;
+	margin-right: 10px;
+	font-family: "segoe UI light";
+	font-weight: 300;
+	position: absolute;
+	top: -22px;
+	display: none;
+}
+
+.mainUI_DriveList_Item .subtitle{
+	color: #ffffff;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-left: 10px;
+	font-family: "segoe UI light";
+	font-weight: 300;
+	margin-bottom: -4px;
+	margin-right: 10px;
+}
+
+.mainUI_DriveList_Item a{
+	text-decoration: none;
+	color: #ffffdd
+}
+
+.mainUI_DriveList_Item .overlay_btn{
+	width: 80px;
+	height: 80px;
+	border: 1px solid #aaa;
+	top: 50px;
+	left: 50px;
+	float: left;
+	margin-left: 10px;
+	margin-top: 10px;
+	background-color: #666666;
+}
+
+.mainUI_DriveList_Item .drive_icon{
+	width: 85px;
+	height: 85px;
+	top: 50px;
+	left: 50px;
+	float: left;
+	margin-left: 10px;
+	margin-top: 10px;
+	background-image: url('/public/img/hdd_86px.png');
+}
+
+.highlight_border{
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  width: 460px;
+  height: 105px;
+  border:10px solid red;
+}
+
+.driveSelected .overlay{
+	background-color: rgba(0,170,200,1.0);
+}
+
+
+
+
+
+

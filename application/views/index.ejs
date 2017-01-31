@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<!--<link rel="icon" href="../../favicon.ico">-->
+
+		<title>Boiled V3.0 Alpha</title>
+
+		<!-- Bootstrap core CSS -->
+		<link href="./public/bootmetro/css/bootmetro.css" rel="stylesheet">
+		<link href="./public/bootmetro/css/bootmetro-icons.css" rel="stylesheet">
+
+		<!-- Custom styles for this template -->
+		<link href="./public/css/ui.style.css" rel="stylesheet">
+
+		<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+		<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+		<script src="./public/jquery-1.11.1.min.js"></script>
+		<script src="./public/json2.js"></script>
+		<script src="./public/placeholders.js"></script>
+		<script src="./public/moment.js"></script>
+		<script type="text/javascript" src="./public/bootmetro/js/bootstrap.js"></script>
+		<script type="text/javascript" src="./public/bootmetro/js/bootmetro.js"></script>
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	
+	<body>
+		<div class="mainui_item row-fluid" id="drivelist_holder">
+			<div class="titlebar span12">
+				<h2 class="title">TITLE</h2>
+			</div>
+			<div id="drivelist" class="span12">
+			</div>
+		</div>
+		
+		<div class="mainui_item row-fluid" id="gamelist_holder">
+			<div class="titlebar span12">
+				<h2 class="title">TITLE</h2>
+			</div>
+			<div id="gamelist" class="span12">
+			</div>
+		</div>
+	</body>
+		
+		<!-- END FORM GROUP -->
+
+
+		<script src="./socket.io/socket.io.js"></script>
+		<script type="text/javascript">
+			function httpGet(theUrl)
+			{
+				var xmlHttp = new XMLHttpRequest();
+				xmlHttp.open( "GET", theUrl, false );
+				xmlHttp.send( null );
+				return xmlHttp.responseText;
+			}
+		
+			var steamconfig	=	<%- JSON.stringify(steamConfig)%>;
+			console.log(steamconfig); 
+			$("#drivelist_holder").children(".titlebar").children('.title').text("DRIVES ("+steamconfig.system.drives.length+" total)");
+			for (var i in steamconfig.system.drives){
+				
+				var barClass = "bar-success";
+				if (steamconfig.system.drives[i].percentFull > 50){
+					barClass = "bar-warning";
+				}
+				if (steamconfig.system.drives[i].percentFull > 80){
+					barClass = "bar-danger";
+				}
+				var html	=	'<div data-id="'+i+'" class="mainUI_DriveList_Item">'+
+										''+
+										'<div class="overlay">'+
+											'<div class="left_holder">'+
+												'<div class="drive_icon"></div>'+
+											'</div>'+
+											'<div class="right_holder">'+
+												'<div class="progress title">'+
+													'<div class="progress_textoverlay">'+steamconfig.system.drives[i].percentFull+'% used'+'</div>'+
+													'<div class="bar '+barClass+'" style="width:'+ steamconfig.system.drives[i].percentFull+'%;"></div>'+
+												'</div>'+
+												'<h2 class="subtitle">'+steamconfig.system.drives[i].DeviceID+'\\ - ' + steamconfig.system.drives[i].FileSystem + '</h2>'+
+												'<h4 class="subtitle"><strong>'+(steamconfig.system.drives[i].Size / 1073741824).toFixed(1)+' GB capacity</h4>'+
+												'<h4 class="subtitle"><strong>'+(steamconfig.system.drives[i].FreeSpace / 1073741824).toFixed(1)+' GB </strong> available</h4>'+
+											'</div>'+
+											//'<h5 class="subtitle"><strong>Size:</strong> '+(installSize/1048576).toFixed(1)+'MB</h5>'+
+										'</div>'+
+									'</div>';
+				$("#drivelist").append(html);
+			};
+			
+			var html	=	'<div data-id="'+i+'" class="mainUI_DriveList_Item"></div>';
+			//$("#drivelist").append(html);
+			
+			
+			$("#gamelist_holder").children(".titlebar").children(".title").text("GAMES ("+steamconfig.Games.length+" total)");
+			for (var i in steamconfig.Games){
+				if (i >= 2){
+					//break;
+				};
+				
+				var installSize;
+				if (steamconfig.Games[i].BytesDownloaded == 0){
+					installSize = steamconfig.Games[i].SizeOnDisk;
+				} else {
+					installSize = steamconfig.Games[i].BytesDownloaded;
+				}
+				
+				var installText = 'INSTALL';
+				if (parseInt(steamconfig.Games[i].PercentDownload) >= 100){
+					installText = 'LAUNCH';
+				} else {
+					installText = 'INSTALL';
+				}
+				
+				var html	=	'<div data-id="'+i+'" class="mainUI_GameList_Item" data-AppId="'+steamconfig.Games[i].AppId+
+																										    '" data-BuildId="'+steamconfig.Games[i].BuildId+
+																											'" data-InstallDir="'+steamconfig.Games[i].InstallDir+
+																											'" data-Language="'+steamconfig.Games[i].Language+
+																											'" data-Title="'+steamconfig.Games[i].Title+
+																											'" data-SizeOnDisk="'+steamconfig.Games[i].SizeOnDisk+'">'+
+										'<img src='+steamconfig.Games[i].ImageUrl+' class="bgimage">'+
+										'<div class="overlay">'+
+											//'<div class="hover_overlay">'+
+												//'<div class="overlay_btn"></div>'+
+											//'</div>'+
+											'<div class="hover_overlay_top">'+
+												'<h1 class="install_link"><a href="steam://run/'+steamconfig.Games[i].AppId+'">'+installText+'</a></h1>'+
+											'</div>'+
+											'<a href="steam://run/'+steamconfig.Games[i].AppId+'">'+
+												'<h1 class="title">'+steamconfig.Games[i].Title+'</h1>'+
+											'</a>'+
+											'<h5 class="subtitle"><strong>Downloaded:</strong> '+steamconfig.Games[i].PercentDownload+'%</h5>'+
+											'<h5 class="subtitle"><strong>Installed:</strong> '+steamconfig.Games[i].InstallDir+'</h5>'+
+											//'<h5 class="subtitle"><strong>Size:</strong> '+(installSize/1048576).toFixed(1)+'MB</h5>'+
+										'</div>'+
+									'</div>';
+				
+				$("#gamelist").append(html);
+				//$("#gamelist").append("<li>"+steamconfig.Games[i].Title+" (AppID: " +steamconfig.Games[i].AppId+ ")</li>");
+			};
+			
+			$(".mainUI_GameList_Item").on("mouseover", function(e){
+				$(".hover_overlay").height(0);
+				$(".hover_overlay_top").height(0);
+				$(".install_link").hide();
+				var elem = $(this);
+				elem.find(".hover_overlay").height(108);
+				elem.find(".hover_overlay_top").height(45);
+				var tophover = elem.find(".hover_overlay_top");
+				tophover.find(".install_link").show();
+			}).on("mouseleave", function(e){
+				$(".hover_overlay").height(0);
+				$(".hover_overlay_top").height(0);
+				$(".install_link").hide();
+			});
+			
+			$(".mainUI_GameList_Item").on("mouseover", function(e){
+				var elem = $(this);
+				if (elem.hasClass('gameSelected') == false){
+					elem.find('.overlay').css("background-color","rgba(60,60,60,0.8)");
+				} else {
+					elem.find('.overlay').css("background-color","rgba(0,170,200,1.0)");
+					//elem.find('.overlay').css("background-color","rgba(0,180,180,0.8)");
+				}
+			}).on("mouseleave", function(e){
+				var elem = $(this);
+				if (elem.hasClass('gameSelected') == false){
+					elem.find('.overlay').css("background-color","rgba(0,0,0,0.8)");
+				} else {
+					elem.find('.overlay').css("background-color","rgba(0,170,200,0.8)");
+				};
+			}).on("mousedown", function(e){
+				var elem = $(this);
+				//$('.mainUI_DriveList_Item').toggleClass('driveSelected');
+				//$('.mainUI_GameList_Item').not(this).removeClass('driveSelected');
+				//$('.mainUI_GameList_Item').not(this).find('.overlay').css("background-color","rgba(0,0,0,0.8)");
+				elem.toggleClass('gameSelected');
+				elem.find('.overlay').css("background-color","rgba(0,170,200,0.8)");
+				
+				/*
+				if (elem.hasClass('driveSelected') == false){
+					$('.mainUI_DriveList_Item').removeClass('driveSelected');
+					elem.addClass('driveSelected');
+				} else {
+					elem.removeClass('driveSelected');
+				}
+				$('.mainUI_DriveList_Item').find('.overlay').css("background-color","rgba(0,0,0,0.8)");
+				elem.find('.overlay').css("background-color","rgba(0,170,200,1.0)");
+				*/
+			});
+			
+			$(".mainUI_DriveList_Item").on("mouseover", function(e){
+				var elem = $(this);
+				if (elem.hasClass('driveSelected') == false){
+					elem.find('.overlay').css("background-color","rgba(60,60,60,0.8)");
+				} else {
+					elem.find('.overlay').css("background-color","rgba(0,170,200,1.0)");
+					//elem.find('.overlay').css("background-color","rgba(0,180,180,0.8)");
+				}
+			}).on("mouseleave", function(e){
+				var elem = $(this);
+				
+				if (elem.hasClass('driveSelected') == false){
+					elem.find('.overlay').css("background-color","rgba(0,0,0,0.8)");
+				} else {
+					elem.find('.overlay').css("background-color","rgba(0,170,200,0.8)");
+				};
+			}).on("mousedown", function(e){
+				var elem = $(this);
+				//$('.mainUI_DriveList_Item').toggleClass('driveSelected');
+				$('.mainUI_DriveList_Item').not(this).removeClass('driveSelected');
+				$('.mainUI_DriveList_Item').not(this).find('.overlay').css("background-color","rgba(0,0,0,0.8)");
+				elem.toggleClass('driveSelected');
+				elem.find('.overlay').css("background-color","rgba(0,170,200,0.8)");
+				
+				/*
+				if (elem.hasClass('driveSelected') == false){
+					$('.mainUI_DriveList_Item').removeClass('driveSelected');
+					elem.addClass('driveSelected');
+				} else {
+					elem.removeClass('driveSelected');
+				}
+				$('.mainUI_DriveList_Item').find('.overlay').css("background-color","rgba(0,0,0,0.8)");
+				elem.find('.overlay').css("background-color","rgba(0,170,200,1.0)");
+				*/
+			});
+			
+			
+			//JQUERY
+			function j(s,e,a){
+				$(s)[e](a);
+			};
+			
+			var socket = io(window.location.host);
+			
+			$('.blockreturns').on("keyup keypress", function(e) {
+				var code = e.keyCode || e.which; 
+				if (code  == 13) {               
+					e.preventDefault();
+					return false;
+				}
+			});
+			
+			$("input").on("keyup keypress", function(e){
+				var code	= e.keyCode || e.which;
+				var elem	=	$(this);
+				if (code  == 13) {
+					e.preventDefault();
+					var obj = {
+						'cmd'	:	elem.val()
+					};
+					elem.val("");
+					socket.emit("cmd", obj);
+					return false;
+				}
+			});
+			
+			socket.on('cmd', function(o){
+				$("body").append(o.stdout);
+				console.log(o);
+			});
+        </script>
+	</body>
+</html>
